@@ -12,15 +12,17 @@ import com.jakewharton.notificationcompat2.NotificationAction;
 import com.jakewharton.notificationcompat2.NotificationCompat2;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Udic
- * Date: 17/07/12
- * Time: 00:12
- * To change this template use File | Settings | File Templates.
+ * This Application class is used to hold the receiver for the "SWITCH_BUTTONS" intent.
+ *
+ * Since this receiver needs to be alive even after the main activity was
+ * destroyed - we use Application.
+ *
+ * @author Udi Cohen (udinic@gmail.com)
+ *
  */
 public class SampleApplication extends Application {
 
-    public static String ACTION_NOTIFICATION_SWITCH_BUTTONS =       "SWITCH_BUTTONS_NEW";
+    public static String ACTION_NOTIFICATION_SWITCH_BUTTONS =       "SWITCH_BUTTONS";
     public static String NOTIFICATION_SWITCH_BUTTONS_ARG_ID =       "NOTIFI_ID";
     public static String NOTIFICATION_SWITCH_BUTTONS_ARG_ACTIONS =  "NOTIFI_ACTIONS";
     public static String NOTIFICATION_SWITCH_BUTTONS_ARG_TITLE =    "NOTIFI_TITLE";
@@ -28,8 +30,6 @@ public class SampleApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();    //To change body of overridden methods use File | Settings | File Templates.
-
-        Log.d("SampleApplication", "onCreate");
 
         BroadcastReceiver bla = new BroadcastReceiver() {
 
@@ -41,6 +41,7 @@ public class SampleApplication extends Application {
                     String notifiTitle = intent.getStringExtra(NOTIFICATION_SWITCH_BUTTONS_ARG_TITLE);
                     Parcelable actions[] = intent.getParcelableArrayExtra(NOTIFICATION_SWITCH_BUTTONS_ARG_ACTIONS);
 
+                    // Creating the new notification based on the data came from the intenr
                     NotificationManager mgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                     NotificationCompat2.Builder builder = NotificationsHelper.getSimple(SampleApplication.this, notifiTitle);
 

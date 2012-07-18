@@ -8,11 +8,7 @@ import com.jakewharton.notificationcompat2.NotificationCompat2;
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Udic
- * Date: 19/07/12
- * Time: 01:39
- * To change this template use File | Settings | File Templates.
+ * A simple helper to create a simple notification builder and pending intent to open the SampleActivity.
  */
 public class NotificationsHelper {
 

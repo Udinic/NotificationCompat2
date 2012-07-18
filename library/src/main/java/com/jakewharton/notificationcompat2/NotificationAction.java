@@ -5,11 +5,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Udic
- * Date: 17/07/12
- * Time: 00:56
- * To change this template use File | Settings | File Templates.
+ * This class represent a notification's action.
+ *
+ * The framework's class for that representation is hidden.
+ * Use this class to transfer notification's action through intents, it's Parcelable
+ *
+ * @author Udi Cohen (udinic@gmail.com)
+ *
  */
 public class NotificationAction implements Parcelable {
 
