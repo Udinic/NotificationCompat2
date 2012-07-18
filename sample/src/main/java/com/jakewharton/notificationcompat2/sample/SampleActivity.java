@@ -17,20 +17,24 @@
 package com.jakewharton.notificationcompat2.sample;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
+import com.jakewharton.notificationcompat2.NotificationAction;
 import com.jakewharton.notificationcompat2.NotificationCompat2;
 
-import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.view.View.OnClickListener;
 import static com.jakewharton.notificationcompat2.NotificationCompat2.PRIORITY_HIGH;
 import static com.jakewharton.notificationcompat2.NotificationCompat2.PRIORITY_LOW;
 import static com.jakewharton.notificationcompat2.NotificationCompat2.PRIORITY_MAX;
 import static com.jakewharton.notificationcompat2.NotificationCompat2.PRIORITY_MIN;
+import static com.jakewharton.notificationcompat2.sample.NotificationsHelper.getPendingIntent;
+import static com.jakewharton.notificationcompat2.sample.NotificationsHelper.getSimple;
+import static com.jakewharton.notificationcompat2.sample.SampleApplication.*;
 
 public class SampleActivity extends Activity {
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -41,32 +45,32 @@ public class SampleActivity extends Activity {
 
     findViewById(R.id.simple).setOnClickListener(new OnClickListener() {
       @Override public void onClick(View view) {
-        mgr.notify(R.id.simple, getSimple("Simple").build());
+        mgr.notify(R.id.simple, getSimple(SampleActivity.this,"Simple").build());
       }
     });
     findViewById(R.id.high_priority).setOnClickListener(new OnClickListener() {
       @Override public void onClick(View view) {
-        mgr.notify(R.id.high_priority, getSimple("High Priority").setPriority(PRIORITY_HIGH).build());
+        mgr.notify(R.id.high_priority, getSimple(SampleActivity.this,"High Priority").setPriority(PRIORITY_HIGH).build());
       }
     });
     findViewById(R.id.low_priority).setOnClickListener(new OnClickListener() {
       @Override public void onClick(View view) {
-        mgr.notify(R.id.low_priority, getSimple("Low Priority").setPriority(PRIORITY_LOW).build());
+        mgr.notify(R.id.low_priority, getSimple(SampleActivity.this,"Low Priority").setPriority(PRIORITY_LOW).build());
       }
     });
     findViewById(R.id.max_priority).setOnClickListener(new OnClickListener() {
       @Override public void onClick(View view) {
-        mgr.notify(R.id.max_priority, getSimple("Max Priority").setPriority(PRIORITY_MAX).build());
+        mgr.notify(R.id.max_priority, getSimple(SampleActivity.this,"Max Priority").setPriority(PRIORITY_MAX).build());
       }
     });
     findViewById(R.id.min_priority).setOnClickListener(new OnClickListener() {
       @Override public void onClick(View view) {
-        mgr.notify(R.id.min_priority, getSimple("Min Priority").setPriority(PRIORITY_MIN).build());
+        mgr.notify(R.id.min_priority, getSimple(SampleActivity.this,"Min Priority").setPriority(PRIORITY_MIN).build());
       }
     });
     findViewById(R.id.big_picture).setOnClickListener(new OnClickListener() {
       @Override public void onClick(View view) {
-        mgr.notify(R.id.big_picture, new NotificationCompat2.BigPictureStyle(getSimple("Big Picture"))
+        mgr.notify(R.id.big_picture, new NotificationCompat2.BigPictureStyle(getSimple(SampleActivity.this,"Big Picture"))
             .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.rockaway_sunset))
             .setBigContentTitle("Courtesy Romain Guy")
             .setSummaryText("http://curious-creature.org")
@@ -75,7 +79,7 @@ public class SampleActivity extends Activity {
     });
     findViewById(R.id.big_picture_api).setOnClickListener(new OnClickListener() {
       @Override public void onClick(View view) {
-        mgr.notify(R.id.big_picture_api, getSimple("Big Picture (via API)")
+        mgr.notify(R.id.big_picture_api, getSimple(SampleActivity.this,"Big Picture (via API)")
             .setStyle(new NotificationCompat2.BigPictureStyle()
                 .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.rockaway_sunset))
                 .setBigContentTitle("Courtesy Romain Guy")
@@ -85,7 +89,7 @@ public class SampleActivity extends Activity {
     });
     findViewById(R.id.big_text).setOnClickListener(new OnClickListener() {
       @Override public void onClick(View view) {
-        mgr.notify(R.id.big_text, new NotificationCompat2.BigTextStyle(getSimple("Big Text"))
+        mgr.notify(R.id.big_text, new NotificationCompat2.BigTextStyle(getSimple(SampleActivity.this,"Big Text"))
             .bigText(""
                 + "This is a very long piece of text. "
                 + "This is a very long piece of text. "
@@ -99,7 +103,7 @@ public class SampleActivity extends Activity {
     });
     findViewById(R.id.inbox).setOnClickListener(new OnClickListener() {
       @Override public void onClick(View view) {
-        mgr.notify(R.id.inbox, new NotificationCompat2.InboxStyle(getSimple("Inbox"))
+        mgr.notify(R.id.inbox, new NotificationCompat2.InboxStyle(getSimple(SampleActivity.this,"Inbox"))
             .addLine("Line One")
             .addLine("Line Two")
             .addLine("Line Three")
@@ -110,31 +114,47 @@ public class SampleActivity extends Activity {
     });
     findViewById(R.id.actions).setOnClickListener(new OnClickListener() {
       @Override public void onClick(View view) {
-        mgr.notify(R.id.actions, getSimple("Actions")
-            .addAction(android.R.drawable.sym_def_app_icon, "One", getPendingIntent())
-            .addAction(android.R.drawable.sym_def_app_icon, "Two", getPendingIntent())
+        mgr.notify(R.id.actions, getSimple(SampleActivity.this,"Actions")
+            .addAction(android.R.drawable.sym_def_app_icon, "One", getPendingIntent(SampleActivity.this))
+            .addAction(android.R.drawable.sym_def_app_icon, "Two", getPendingIntent(SampleActivity.this))
             .build());
       }
     });
     findViewById(R.id.progress).setOnClickListener(new OnClickListener() {
       @Override public void onClick(View view) {
-        mgr.notify(R.id.progress, getSimple("Progress").setProgress(0, 0, true).build());
+        mgr.notify(R.id.progress, getSimple(SampleActivity.this,"Progress").setProgress(0, 0, true).build());
       }
     });
-  }
+    findViewById(R.id.udini).setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View view) {
 
-  private NotificationCompat2.Builder getSimple(CharSequence title) {
-    return new NotificationCompat2.Builder(this)
-        .setSmallIcon(android.R.drawable.sym_def_app_icon)
-        .setTicker("Ticker: " + title)
-        .setContentTitle("Title: " + title)
-        .setContentText("Content Text")
-        .setContentIntent(getPendingIntent());
-  }
+          int notifiId = R.id.udini;
 
-  private PendingIntent getPendingIntent() {
-    Intent i = new Intent(this, SampleActivity.class);
-    i.setFlags(FLAG_ACTIVITY_CLEAR_TOP);
-    return PendingIntent.getActivity(this, 0, i, 0);
+          // Creating the switch buttons intent
+          Intent switchButtonIntent = new Intent(ACTION_NOTIFICATION_SWITCH_BUTTONS);
+
+          // Initializing the action buttons we want to switch to
+          NotificationAction actions[] = new NotificationAction[] {
+                  new NotificationAction(R.drawable.no_icon, "udinic1", getPendingIntent(SampleActivity.this)),
+                  new NotificationAction(R.drawable.no_icon, "udinic2", getPendingIntent(SampleActivity.this)),
+                  new NotificationAction(R.drawable.no_icon, "udinic3", getPendingIntent(SampleActivity.this))
+          };
+
+          switchButtonIntent.putExtra(NOTIFICATION_SWITCH_BUTTONS_ARG_ID, notifiId);
+          switchButtonIntent.putExtra(NOTIFICATION_SWITCH_BUTTONS_ARG_ACTIONS, actions);
+          switchButtonIntent.putExtra(NOTIFICATION_SWITCH_BUTTONS_ARG_TITLE, "Udinic extended");
+
+          PendingIntent pIntent = PendingIntent.getBroadcast(SampleActivity.this, 0, switchButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+          // Building the notification. The "More.." action is the one to sent the "switch buttons" intent
+          Notification noti = getSimple(SampleActivity.this,"Udini is the man")
+                  .addAction(android.R.drawable.sym_def_app_icon, "Action", getPendingIntent(SampleActivity.this))
+                  .addAction(android.R.drawable.sym_def_app_icon, "More..", pIntent)
+                  .build();
+
+          mgr.notify(notifiId, noti);
+      }
+    });
   }
 }

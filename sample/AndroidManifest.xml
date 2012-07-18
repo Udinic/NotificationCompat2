@@ -7,7 +7,7 @@
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="16"/>
 
-    <application android:label="NotificationCompat2 Sample">
+    <application android:label="NotificationCompat2 Sample" android:name=".SampleApplication">
 
         <activity
                 android:label="Notification Compat 2"
