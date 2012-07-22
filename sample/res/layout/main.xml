@@ -9,12 +9,6 @@
             android:orientation="vertical"
             android:padding="8dp">
         <Button
-                android:id="@+id/udini"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Udini"
-                />
-        <Button
                 android:id="@+id/simple"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,6 +67,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Actions"
+                />
+        <Button
+                android:id="@+id/actions_extended"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Actions Extended"
                 />
         <Button
                 android:id="@+id/progress"

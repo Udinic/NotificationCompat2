@@ -7,7 +7,7 @@
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="16"/>
 
-    <application android:label="NotificationCompat2 Sample" android:name=".SampleApplication">
+    <application android:label="NotificationCompat2 Sample">
 
         <activity
                 android:label="Notification Compat 2"
@@ -19,6 +19,13 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name="com.jakewharton.notificationcompat2.ExtendedNotificationsReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="com.jakewharton.notificationcompat2.SWITCH_BUTTONS"/>
+            </intent-filter>
+        </receiver>
+
     </application>
+
 
 </manifest>
