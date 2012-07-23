@@ -20,7 +20,7 @@
         </activity>
 
         <!-- Declaring the service -->
-        <service android:name="com.jakewharton.notificationcompat2.ExtendedNotificationService"/>
+        <service android:name="com.jakewharton.notificationcompat2.NotificationReplaceService"/>
 
     </application>
 

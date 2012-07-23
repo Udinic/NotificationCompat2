@@ -10,14 +10,14 @@ import android.content.Intent;
  *
  * @author Udi Cohen (udinic@gmail.com)
  */
-public class ExtendedNotificationService extends IntentService {
+public class NotificationReplaceService extends IntentService {
 
     public static String ACTION_NOTIFICATION_SWITCH_BUTTONS =           "com.jakewharton.notificationcompat2.SWITCH_NOTIFICATIONS";
     public static String NOTIFICATION_SWITCH_BUTTONS_ARG_ID =           "NOTIF_ID";
     public static String NOTIFICATION_SWITCH_BUTTONS_ARG_NOTIFICATION = "NOTIF_NOTIFICATION";
 
-    public ExtendedNotificationService() {
-        super("ExtendedNotificationService");
+    public NotificationReplaceService() {
+        super("NotificationReplaceService");
     }
 
     @Override
