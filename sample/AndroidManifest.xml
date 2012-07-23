@@ -19,11 +19,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.jakewharton.notificationcompat2.ExtendedNotificationsReceiver" android:exported="false">
-            <intent-filter>
-                <action android:name="com.jakewharton.notificationcompat2.SWITCH_BUTTONS"/>
-            </intent-filter>
-        </receiver>
+        <!-- Declaring the service -->
+        <service android:name="com.jakewharton.notificationcompat2.ExtendedNotificationService"/>
 
     </application>
 
