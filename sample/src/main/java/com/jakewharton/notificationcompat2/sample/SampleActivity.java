@@ -29,9 +29,9 @@ import com.jakewharton.notificationcompat2.NotificationCompat2;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.view.View.OnClickListener;
-import static com.jakewharton.notificationcompat2.NotificationReplaceService.ACTION_NOTIFICATION_SWITCH_BUTTONS;
-import static com.jakewharton.notificationcompat2.NotificationReplaceService.NOTIFICATION_SWITCH_BUTTONS_ARG_ID;
-import static com.jakewharton.notificationcompat2.NotificationReplaceService.NOTIFICATION_SWITCH_BUTTONS_ARG_NOTIFICATION;
+import static com.jakewharton.notificationcompat2.NotificationReplaceService.ACTION_SWITCH_NOTIFICATIONS;
+import static com.jakewharton.notificationcompat2.NotificationReplaceService.SWITCH_NOTIFICATION_ARG_ID;
+import static com.jakewharton.notificationcompat2.NotificationReplaceService.SWITCH_NOTIFICATION_ARG_NOTIFICATION;
 import static com.jakewharton.notificationcompat2.NotificationCompat2.*;
 
 public class SampleActivity extends Activity {
@@ -143,25 +143,25 @@ public class SampleActivity extends Activity {
 
                 // First - Building the extended notification.
                 // This will replace the first one when the "More.." button will be pressed
-                Notification notiExtended = getSimple("Actions extended")
+                Notification notiReplacement = getSimple("Actions extended")
                         .addAction(R.drawable.no_icon, "udinic1", getPendingIntent())
                         .addAction(R.drawable.no_icon, "udinic2", getPendingIntent())
                         .addAction(R.drawable.no_icon, "udinic3", getPendingIntent())
                         .build();
 
-                // Creating the switch buttons intent.
+                // Creating the switch notification intent.
                 // The receiver will get this and send notiExtended to the NotificationManager, replacing the current one with the same Id
-                Intent switchButtonIntent = new Intent();
-                switchButtonIntent.setClass(SampleActivity.this, NotificationReplaceService.class);
-                switchButtonIntent.setAction(ACTION_NOTIFICATION_SWITCH_BUTTONS);
-                switchButtonIntent.putExtra(NOTIFICATION_SWITCH_BUTTONS_ARG_ID, notifiId);
-                switchButtonIntent.putExtra(NOTIFICATION_SWITCH_BUTTONS_ARG_NOTIFICATION, notiExtended);
-                PendingIntent pIntent = PendingIntent.getService(SampleActivity.this, 0, switchButtonIntent, 0);
+                Intent switchNotificationIntent = new Intent();
+                switchNotificationIntent.setClass(SampleActivity.this, NotificationReplaceService.class);
+                switchNotificationIntent.setAction(ACTION_SWITCH_NOTIFICATIONS);
+                switchNotificationIntent.putExtra(SWITCH_NOTIFICATION_ARG_ID, notifiId);
+                switchNotificationIntent.putExtra(SWITCH_NOTIFICATION_ARG_NOTIFICATION, notiReplacement);
+                PendingIntent intentReplaceNotification = PendingIntent.getService(SampleActivity.this, 0, switchNotificationIntent, 0);
 
-                // Building the main notification. The "More.." action is the one to sent the "switch buttons" intent
+                // Building the main notification. The "More.." action is the one to sent the "switch notification" intent
                 Notification notiMain = getSimple("Action with extension")
                         .addAction(android.R.drawable.sym_def_app_icon, "Action", getPendingIntent())
-                        .addAction(android.R.drawable.sym_def_app_icon, "More..", pIntent)
+                        .addAction(android.R.drawable.sym_def_app_icon, "More..", intentReplaceNotification)
                         .build();
 
 
