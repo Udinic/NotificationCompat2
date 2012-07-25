@@ -21,6 +21,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
@@ -70,6 +71,14 @@ public class SampleActivity extends Activity {
             @Override
             public void onClick(View view) {
                 mgr.notify(R.id.min_priority, getSimple("Min Priority").setPriority(PRIORITY_MIN).build());
+            }
+        });
+        findViewById(R.id.picture).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.profile2);
+                mgr.notify(R.id.picture, getSimple("Picture Large").setLargeIcon(icon).build());
+                mgr.notify(R.id.picture + 1, getSimple("Picture Small").setSmallIcon(R.drawable.profile2).build());
             }
         });
         findViewById(R.id.big_picture).setOnClickListener(new OnClickListener() {

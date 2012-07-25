@@ -39,6 +39,12 @@
                 android:text="Min Priority"
                 />
         <Button
+                android:id="@+id/picture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Picture"
+                />
+        <Button
                 android:id="@+id/big_picture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
