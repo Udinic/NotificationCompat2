@@ -25,9 +25,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RemoteViews;
+import android.widget.Toast;
 import com.jakewharton.notificationcompat2.NotificationReplaceService;
 import com.jakewharton.notificationcompat2.NotificationCompat2;
 
+import static android.content.Intent.ACTION_RUN;
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.view.View.OnClickListener;
 import static com.jakewharton.notificationcompat2.NotificationReplaceService.ACTION_SWITCH_NOTIFICATIONS;
@@ -144,6 +147,12 @@ public class SampleActivity extends Activity {
                 mgr.notify(R.id.progress, getSimple("Progress").setProgress(0, 0, true).build());
             }
         });
+        findViewById(R.id.widget).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NotificationWidgetService.initNotification(SampleActivity.this);
+            }
+        });
         findViewById(R.id.actions_extended).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,6 +186,8 @@ public class SampleActivity extends Activity {
                 mgr.notify(notifiId, notiMain);
             }
         });
+
+        handleIntent(getIntent());
     }
 
     private NotificationCompat2.Builder getSimple(CharSequence title) {
@@ -193,5 +204,59 @@ public class SampleActivity extends Activity {
         i.setFlags(FLAG_ACTIVITY_CLEAR_TOP);
         return PendingIntent.getActivity(this, 0, i, 0);
     }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);    //To change body of overridden methods use File | Settings | File Templates.
 
+        handleIntent(intent);
+    }
+    private void handleIntent(Intent intent) {
+
+        if ("udini1".equals(intent.getAction()))
+            Toast.makeText(this, "udini1", Toast.LENGTH_SHORT).show();
+        else if ("udini2".equals(intent.getAction()))
+            Toast.makeText(this, "udini2", Toast.LENGTH_SHORT).show();
+        else if ("udini".equals(intent.getAction()))
+            Toast.makeText(this, "udini", Toast.LENGTH_SHORT).show();
+    }
+
+    private void initWidget() {
+        NotificationCompat2.Builder builder = new NotificationCompat2.Builder(this);
+
+        RemoteViews layout = new RemoteViews(this.getPackageName(), R.layout.widget_notification);
+//            builder.setContent(layout);
+
+        Intent openApp = new Intent(this, SampleActivity.class);
+        openApp.setAction("udini1");
+        PendingIntent actionOpenApp = PendingIntent.getActivity(this, 50+hashCode(), openApp, PendingIntent.FLAG_UPDATE_CURRENT);
+        layout.setOnClickPendingIntent(R.id.notif_widget_icon1,actionOpenApp);
+
+        Intent openApp2 = new Intent(this, SampleActivity.class);
+        openApp2.setAction("udini1");
+        PendingIntent actionOpenApp2 = PendingIntent.getActivity(this, 51+hashCode(), openApp2, PendingIntent.FLAG_UPDATE_CURRENT);
+        layout.setOnClickPendingIntent(R.id.notif_widget_icon2, actionOpenApp2);
+
+//        Intent activeOpenFromBtnAdd = new Intent(getAppContext(), Main.class);
+//        activeOpenFromBtnAdd.setAction(ACTION_RUN);
+//        activeOpenFromBtnAdd.putExtra(Main.EXTRA_PERFORM_ON_START, Main.OPEN_KEYBOARD);
+//        activeOpenFromBtnAdd.putExtra(Main.EXTRA_SOURCE, CATEGORY_WIDGET_NOTIFICATION);
+//        PendingIntent pendingFromAddBtn = PendingIntent.getActivity(getAppContext(), 51+hashCode(), activeOpenFromBtnAdd, PendingIntent.FLAG_UPDATE_CURRENT | Intent.FLAG_ACTIVITY_NEW_TASK);
+//        layout.setOnClickPendingIntent(R.id.notif_widget_button_add, pendingFromAddBtn);
+//        builder.setSmallIcon(R.drawable.icon);
+//            builder.setContentTitle("udini");
+
+        // Needed for API < 14?
+        Intent openAppRegular = new Intent(this, SampleActivity.class);
+        openApp2.setAction("udini");
+        builder.setContentIntent(PendingIntent.getService(this, 55, openAppRegular, PendingIntent.FLAG_UPDATE_CURRENT));
+
+        builder.setOngoing(true);
+        builder.setAutoCancel(false);
+        builder.setContent(layout);
+        Notification notificationWidget = builder.build();
+        notificationWidget.contentView = layout;
+        NotificationManager notManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
+        notManager.notify(151, notificationWidget);
+
+}
 }

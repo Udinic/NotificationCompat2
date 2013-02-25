@@ -8,98 +8,29 @@
               android:background="@null"
         >
 
-    <ImageButton
-            android:id="@+id/notif_widget_icon"
+    <ImageView
+            android:id="@+id/notif_widget_icon1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="5dip"
             android:paddingRight="5dip"
             android:src="@drawable/notification_widget_logo"
             android:scaleType="centerInside"
+            android:adjustViewBounds="false"
             android:background="@null"
             />
 
-    <LinearLayout
+    <ImageView
+            android:id="@+id/notif_widget_icon2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_width="0dip"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
             android:paddingLeft="5dip"
-            android:orientation="vertical">
-        <TextView
-                android:id="@+id/notif_widget_next"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textAppearance="@android:style/TextAppearance.StatusBar.EventContent.Title"
-                android:typeface="sans"
-                android:gravity="left"
-                android:text="Next:"
-                android:textSize="14sp"/>
-        <TextView
-                android:id="@+id/notif_widget_task"
-                android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.StatusBar.EventContent.Title"
-                android:layout_width="match_parent"
-                android:ellipsize="end"
-                android:gravity="left"
-                android:typeface="sans"
-                android:text="Buy some shoes"
-                android:textSize="18sp"/>
-
-    </LinearLayout>
-
-    <ImageView
-            android:id="@+id/divider1"
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:layout_margin="10dip"
-            android:background="@color/widget_divider_wh"/>
-
-    <!--android:paddingRight="10dip"-->
-    <!--android:paddingLeft="7dip"-->
-    <ImageButton
-    android:id="@+id/notif_widget_button_add"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:src="@drawable/notification_widget_plus"
-    android:padding="10dip"
-    android:scaleType="centerInside"
-    android:background="@null"
-    />
-
-    <ImageView
-            android:id="@+id/divider2"
-            android:layout_height="match_parent"
-            android:layout_width="1px"
-            android:layout_margin="10dip"
-            android:background="@color/widget_divider_wh"/>
-
-    <ImageButton
-    android:id="@+id/notif_widget_button_mic"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:src="@drawable/notification_widget_mic"
-    android:padding="10dip"
-    android:scaleType="centerInside"
-    android:background="@null"
-    />
-
-    <ImageView
-            android:id="@+id/divider2"
-            android:layout_height="match_parent"
-            android:layout_width="1px"
-            android:layout_margin="10dip"
-            android:background="@color/widget_divider_wh"/>
-
-    <ImageButton
-    android:id="@+id/notif_widget_button_settings"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:paddingRight="15dip"
-    android:paddingLeft="5dip"
-    android:src="@drawable/notification_widget_settings"
-    android:scaleType="centerInside"
-    android:background="@null"
-    />
+            android:adjustViewBounds="false"
+            android:paddingRight="5dip"
+            android:clickable="true"
+            android:src="@drawable/notification_widget_logo2"
+            android:scaleType="centerInside"
+            android:background="@null"
+            />
 
 </LinearLayout>

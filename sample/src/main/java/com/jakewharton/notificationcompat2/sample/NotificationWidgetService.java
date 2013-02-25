@@ -6,19 +6,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
-import com.anydo.R;
-import com.anydo.activity.Main;
-import com.anydo.activity.SettingsPreferences;
-import com.anydo.application.AnydoApp;
-import com.anydo.utils.AnydoLog;
 import com.jakewharton.notificationcompat2.NotificationCompat2;
 
-import static android.content.Intent.ACTION_RUN;
-import static com.anydo.analytics.AnalyticsConstants.CATEGORY_WIDGET_BIG;
-import static com.anydo.analytics.AnalyticsConstants.CATEGORY_WIDGET_NOTIFICATION;
-import static com.anydo.application.AnydoApp.getAppContext;
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,7 +25,7 @@ public class NotificationWidgetService extends IntentService {
 
     public static final String ACTION_INIT_NOTIFICATION = "ACTION_INIT_NOTIFICATION";
     public static final String ACTION_CLICK = "ACTION_CLICK";
-    private int NOTIFICATION_WIDGET_ID = 83464;
+    private int NOTIFICATION_WIDGET_ID = 834;
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -49,55 +43,48 @@ public class NotificationWidgetService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        if (ACTION_INIT_NOTIFICATION.equals(intent.getAction())) {
-            AnydoLog.d("NotificationWidgetService", "init notification");
-            NotificationCompat2.Builder builder = new NotificationCompat2.Builder(this);
+        try {
+            if (ACTION_INIT_NOTIFICATION.equals(intent.getAction())) {
+                Log.d("NotificationWidgetService", "init notification");
+                NotificationCompat2.Builder builder = new NotificationCompat2.Builder(this);
 
-            RemoteViews layout = new RemoteViews(this.getPackageName(), R.layout.widget_notification);
+                RemoteViews layout = new RemoteViews(this.getPackageName(), R.layout.widget_notification);
 //            builder.setContent(layout);
 
-            Intent openApp = new Intent(AnydoApp.getAppContext(), Main.class);
-            PendingIntent actionOpenApp = PendingIntent.getActivity(AnydoApp.getAppContext(), 50+hashCode(), openApp, PendingIntent.FLAG_UPDATE_CURRENT);
-            layout.setOnClickPendingIntent(R.id.notif_widget_icon,actionOpenApp);
+                Intent openApp = new Intent(this, SampleActivity.class);
+                openApp.setFlags(FLAG_ACTIVITY_CLEAR_TOP);
+                openApp.setAction("udini1");
+                PendingIntent actionOpenApp = PendingIntent.getActivity(this, 50 + hashCode(), openApp, PendingIntent.FLAG_UPDATE_CURRENT);
+                layout.setOnClickPendingIntent(R.id.notif_widget_icon1, actionOpenApp);
 
-            Intent activeOpenFromBtnAdd = new Intent(getAppContext(), Main.class);
-            activeOpenFromBtnAdd.setAction(ACTION_RUN);
-            activeOpenFromBtnAdd.putExtra(Main.EXTRA_PERFORM_ON_START, Main.OPEN_KEYBOARD);
-            activeOpenFromBtnAdd.putExtra(Main.EXTRA_SOURCE, CATEGORY_WIDGET_NOTIFICATION);
-            PendingIntent pendingFromAddBtn = PendingIntent.getActivity(getAppContext(), 51+hashCode(), activeOpenFromBtnAdd, PendingIntent.FLAG_UPDATE_CURRENT | Intent.FLAG_ACTIVITY_NEW_TASK);
-            layout.setOnClickPendingIntent(R.id.notif_widget_button_add, pendingFromAddBtn);
+                Intent openApp2 = new Intent(this, SampleActivity.class);
+                openApp2.setFlags(FLAG_ACTIVITY_CLEAR_TOP);
+                openApp2.setAction("udini2");
+                PendingIntent actionOpenApp2 = PendingIntent.getActivity(this, 51 + hashCode(), openApp2, PendingIntent.FLAG_UPDATE_CURRENT);
+                layout.setOnClickPendingIntent(R.id.notif_widget_icon2, actionOpenApp2);
 
-            Intent activeOpenFromMicBtn = new Intent(getAppContext(), Main.class);
-            activeOpenFromMicBtn.setAction(ACTION_RUN);
-            activeOpenFromMicBtn.putExtra(Main.EXTRA_PERFORM_ON_START, Main.START_SPEECH_ON_START);
-            activeOpenFromMicBtn.putExtra(Main.EXTRA_SOURCE, CATEGORY_WIDGET_NOTIFICATION);
-            PendingIntent pendingFromMicBtn = PendingIntent.getActivity(getAppContext(), 52+hashCode(), activeOpenFromMicBtn, PendingIntent.FLAG_UPDATE_CURRENT | Intent.FLAG_ACTIVITY_NEW_TASK);
-            layout.setOnClickPendingIntent(R.id.notif_widget_button_mic, pendingFromMicBtn);
-
-            Intent activeOpenSettings = new Intent(getAppContext(), SettingsPreferences.class);
-            activeOpenSettings.setAction(ACTION_RUN);
-            activeOpenSettings.putExtra(Main.EXTRA_SOURCE, CATEGORY_WIDGET_NOTIFICATION);
-            PendingIntent pendingFromSettingsBtn = PendingIntent.getActivity(getAppContext(), 53+hashCode(), activeOpenSettings, PendingIntent.FLAG_UPDATE_CURRENT | Intent.FLAG_ACTIVITY_NEW_TASK);
-            layout.setOnClickPendingIntent(R.id.notif_widget_button_settings, pendingFromSettingsBtn);
-
-            builder.setSmallIcon(R.drawable.icon);
+                builder.setSmallIcon(R.drawable.no_icon);
 //            builder.setContentTitle("udini");
 
-            // Needed for API < 14?
-            Intent bla = new Intent(AnydoApp.getAppContext(), NotificationWidgetService.class);
-            bla.setAction(ACTION_CLICK);
-            builder.setContentIntent(PendingIntent.getService(AnydoApp.getAppContext(), 55, bla, PendingIntent.FLAG_UPDATE_CURRENT));
+                // Needed for API < 14?
+                Intent openAppRegular = new Intent(this, SampleActivity.class);
+                openAppRegular.setAction("udini");
+                openAppRegular.setFlags(FLAG_ACTIVITY_CLEAR_TOP);
+                builder.setContentIntent(PendingIntent.getActivity(this, 55, openAppRegular, PendingIntent.FLAG_UPDATE_CURRENT));
 
-            builder.setOngoing(true);
-            builder.setAutoCancel(false);
-            builder.setContent(layout);
-            Notification notificationWidget = builder.build();
-            notificationWidget.contentView = layout;
-            NotificationManager notManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
-            notManager.notify(NOTIFICATION_WIDGET_ID, notificationWidget);
-        } else if (ACTION_CLICK.equals(intent.getAction())) {
-            Toast.makeText(this, "click!", Toast.LENGTH_SHORT).show();
-            AnydoLog.d("NotificationWidgetService", "Click");
+                builder.setOngoing(true);
+                builder.setAutoCancel(false);
+                builder.setContent(layout);
+                Notification notificationWidget = builder.build();
+                notificationWidget.contentView = layout;
+                NotificationManager notManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
+                notManager.notify(12, notificationWidget);
+            } else if (ACTION_CLICK.equals(intent.getAction())) {
+                Toast.makeText(this, "click!", Toast.LENGTH_SHORT).show();
+                Log.d("NotificationWidgetService", "Click");
+            }
+        } catch (Throwable t) {
+            Log.e("udini", t.getMessage(), t);
         }
     }
 }

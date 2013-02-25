@@ -9,6 +9,12 @@
             android:orientation="vertical"
             android:padding="8dp">
         <Button
+                android:id="@+id/widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Notification Widget"
+                />
+        <Button
                 android:id="@+id/simple"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

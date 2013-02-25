@@ -7,7 +7,7 @@
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="16"/>
 
-    <application android:label="NotificationCompat2 Sample">
+    <application android:label="NotificationCompat2 Sample" android:name="NotificationCompat2App">
 
         <activity
                 android:label="Notification Compat 2"
@@ -21,6 +21,7 @@
 
         <!-- Declaring the service -->
         <service android:name="com.jakewharton.notificationcompat2.NotificationReplaceService"/>
+        <service android:name="NotificationWidgetService"/>
 
     </application>
 
